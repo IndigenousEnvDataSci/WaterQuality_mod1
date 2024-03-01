@@ -18,12 +18,14 @@ setwd("~/Documents/GitHub/K_aviCode/")
 
 #### set up data from tek survey ####
 
-#import survey data file
+#import survey data file - these survey responses are from the Geoscience Alliance meeting 2022
 tek_values <- read.csv("TEKresponses.csv")
 
 ####################################
 #### Prep TEK data frame ##########
 ###################################
+
+# with TEK data - we are going to 'clean', summarize and combine with water quality data, and plot 
 
 #delete unnecessary timestamp column
 # in this example we are selecting every column except the one listed, we use a negative sign to say "Don't Select"
@@ -46,10 +48,9 @@ ggplot(tek_values, aes(y=tek_value, x=site, col=site)) + geom_boxplot()
 
 
 # based on photo, each monitoring site is located relatively close to one of the cultural sites, we will pair each one below 
-tek_values$sample_location = NA # create a new column 
+tek_values$sample_location = NA # create a new column and fill with empty rows
+
 # next assign values to sample_location based on site rows 
-
-
 # the following formatting is assigning a value to the rows wherever the statement inside the bracket is true
 # for example: 
 # dataframe$new_column[dataframe$existing_column=="existing label"] <- "new label"
@@ -92,8 +93,12 @@ write.csv(tek_summary, "tek_summary.csv")
 #### visualize tek data with water temperature 
 ###############################################
 
-# if you need to reload water data, do that here
-water_num <- readr::read_csv("K'avi Tribe Water Quality Dataset_clean.csv")
+# if you need to re-load your clean dataset, do that here
+water_num <- readr::read_csv("K_avi_Tribe_Water_Quality_Dataset_clean.csv")
+
+# if you didn't get to that point, but want to move onto plotting, run this line
+water_num <- readr::read_csv("tidy_water_quality_dataset.csv")
+
 
 # summarize the water temperature data by sampling location
 temp_summary <- water_num %>%

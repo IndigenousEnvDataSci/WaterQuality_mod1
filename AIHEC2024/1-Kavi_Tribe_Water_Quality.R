@@ -54,7 +54,12 @@ water_example %>%
   geom_line() + geom_point() +
   theme_minimal()
 
+
+
 # in order to get to this point where we can explore visually, we first have to clean our original data set 
+
+# the process we will go through is to clean the data, then summarize, then plot 
+# when we plot we can gain insight to bring in new data and repeat this process 
 
 # ----------------------------------------------------------------------------
 #### cleaning and organizing our data ####
@@ -190,22 +195,23 @@ str(water_num)
 # for other analyses
 write.csv(water_num, file = "K_avi_Tribe_Water_Quality_Dataset_clean.csv")
 
-# ----------------------------------------------------------------------------
+########################################################################
 #### Summarizing and visualizing data ####
-# ----------------------------------------------------------------------------
+########################################################################
+
 # if you need to re-load your clean dataset, do that here
 water_num <- readr::read_csv("K_avi_Tribe_Water_Quality_Dataset_clean.csv")
 
+# if you didn't get to that point, but want to move onto plotting, run this line
+water_num <- readr::read_csv("tidy_water_quality_dataset.csv")
 
 # plot the data to look and see if we have any outliers or misentered data we might be concerned about
 water_num %>%
   ggplot(aes(x = date, y = water_temp_C, color = sample_location)) +
-  geom_line() 
+  geom_line() + geom_point() 
 
 
-#######################################################################
-#### Pause here? lunch break 
-#######################################################################
+#### great job! you're ready to make more plots. 
 
 # ggplot can be used to do many different types of plots 
 # the general format is: 
