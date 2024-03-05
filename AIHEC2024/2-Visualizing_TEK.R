@@ -13,7 +13,7 @@
 # new functions include: pivot_longer, inner_join 
 # if you are starting from the beginning and have not recently done part 1: Kavi_Tribe_Water_Quality.R, you may want to load your packages and set your working directory
 library(tidyverse)
-setwd("~/Documents/GitHub/K_aviCode/")
+
 
 
 #### set up data from tek survey ####
@@ -35,7 +35,7 @@ tek_values <- tek_values %>%
 #convert the data from a wide format to a long format
 ?pivot_longer
 
-tek_values <- pivot_longer(data = tek_values, cols = everything(), names_to = "site",
+tek_sites <- pivot_longer(data = tek_values, cols = everything(), names_to = "site",
                            values_to = "tek_value")
 # more info for pivot longer - we are reshaping data frame so that rather than several columns, we have only 2 columns to summarize by site  - 
 # as good practice in general - we want each column to be a variable and each row to be an observation - in this case it is two variables: site and rank 
@@ -44,11 +44,11 @@ tek_values <- pivot_longer(data = tek_values, cols = everything(), names_to = "s
 
 # we can visualize the data as-is before summarizing 
 # because we pivoted longer, we can make the 'site' variable a color in our plots 
-ggplot(tek_values, aes(y=tek_value, x=site, col=site)) + geom_boxplot()
+ggplot(tek_sites, aes(y=tek_value, x=site, col=site)) + geom_boxplot()
 
 
 # based on photo, each monitoring site is located relatively close to one of the cultural sites, we will pair each one below 
-tek_values$sample_location = NA # create a new column and fill with empty rows
+tek_sites$sample_location = NA # create a new column and fill with empty rows
 
 # next assign values to sample_location based on site rows 
 # the following formatting is assigning a value to the rows wherever the statement inside the bracket is true
@@ -56,18 +56,18 @@ tek_values$sample_location = NA # create a new column and fill with empty rows
 # dataframe$new_column[dataframe$existing_column=="existing label"] <- "new label"
 
 # monitoring site 1 pairs with ceremony site
-tek_values$sample_location[tek_values$site=="Ceremony.Site"] <- "Monitoring Site 1"
+tek_sites$sample_location[tek_sites$site=="Ceremony.Site"] <- "Monitoring Site 1"
 # monitoring site 2 pairs with medicinal foods site
-tek_values$sample_location[tek_values$site=="Medicinal.Food.Site"] <- "Monitoring Site 2"
+tek_sites$sample_location[tek_sites$site=="Medicinal.Food.Site"] <- "Monitoring Site 2"
 # monitoring site 3 pairs with hunting grounds
-tek_values$sample_location[tek_values$site=="Hunting.Grounds"] <- "Monitoring Site 3"
+tek_sites$sample_location[tek_sites$site=="Hunting.Grounds"] <- "Monitoring Site 3"
 # monitoring site 4 pairs with fishing site
-tek_values$sample_location[tek_values$site=="Fishing.Site"] <- "Monitoring Site 4"
+tek_sites$sample_location[tek_sites$site=="Fishing.Site"] <- "Monitoring Site 4"
 # monitoring site 5 pairs with language camp
-tek_values$sample_location[tek_values$site=="Language.Camp"] <- "Monitoring Site 5"
+tek_sites$sample_location[tek_sites$site=="Language.Camp"] <- "Monitoring Site 5"
 
 # see we have added a third column that labels the closest monitor site 
-str(tek_values) 
+str(tek_sites) 
 
 
 ######################################
@@ -76,7 +76,7 @@ str(tek_values)
 
 # gather summary statistics on the TEK value dataset by site
 # in this use of summary, we only have one variable, so we are running the functions directly 
-tek_summary <- tek_values %>%
+tek_summary <- tek_sites %>%
   group_by(site, sample_location) %>%
   summarize(mean_tek = mean(tek_value),
             sd = sd(tek_value),
