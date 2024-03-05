@@ -16,8 +16,8 @@ rm(list=ls())
 # load necessary libraries
 library(tidyverse)
 # important cleaned water quality dataset
-water <- read.csv("K'avi Tribe Water Quality Dataset_clean.csv")
-tek_sum <- read.csv("tek_summary.csv")
+water <- read.csv("K'avi Tribe Water Quality Dataset_clean.csv") # this is from script #1 
+tek_sum <- read.csv("tek_summary.csv") # this is from script #2 
 
 #### Rate the water quality data ####
 
@@ -34,11 +34,11 @@ water_check <- water %>%
          DO_check = if_else(DO >= 12, 1, 0),
          SC_check = if_else(specific_conductivity <= 400, 1, 0))
 
-# the following plot helps to visualize what is happening with ifelse, using water temperature as an example
-# the dashed horizontal line is out conditional, at water temp = 15 
+# the following plot helps to visualize what is happening with ifelse(), using water temperature as an example
+# the dashed horizontal line is our conditional, at water temp = 15 
 # above that line, water is warmer, and fails our check. the new variable "temp_check" is equal to 0
 # below the dashed line, water is normal temperatures and passes, so temp_check = 1 
-ggplot(water_check) + geom_hline(aes(yintercept=15), linetype="dashed", size=2) + 
+ggplot(water_check) + geom_hline(aes(yintercept=15), linetype="dashed", linewidth=2) + 
   geom_point(aes(x=as.Date(date), y=water_temp_C, col=as.factor(temp_check))) +
   labs(color="temp_check", x="Date", y="Water Temp. (C)") + 
   geom_text(aes(x=as.Date("1990-1-1"), y=22, label="Fail=0"), col="red", size=6, nudge_x = 100) +

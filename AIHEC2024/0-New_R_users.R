@@ -55,6 +55,11 @@ v3 <- c("January", "Feb", 3, 4, 5)
 # each column is a variable, each row is an observation, and each cell is a single value 
 my_tib <- tibble(my_vector, v2)
 
+# did you get an error there? if yes, you may have forgotten to create the v2 vector
+v2 <- c(1,2,3,4,5)
+my_tib <- tibble(my_vector, v2)
+
+
 # sometimes datasests are so large we do not want to print the entire thing in our console. Instead we can preview it with some examples here: 
 str(my_tib)
 head(my_tib)
